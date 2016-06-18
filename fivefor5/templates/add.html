@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+
+{% block title %}
+5for5 -- Add a Song
+{% endblock %}
+
+{% block content %}
+    <section>
+ 		 <form action="" method="post">
+            {{form.hidden_tag()}}
+            <table>
+                <tr>
+                    <td>Please enter song here:</td>
+                    <td>{{form.song(size = 50) }}</td>
+                </tr>
+                <tr>
+                    <td>Please enter description:</td>
+                    <td>{{form.description(size = 50) }}</td>
+                    </td>
+                    <td>
+                        <ul>
+                        </ul>
+                    </td>
+                </tr>
+                <tr>
+                 
+                </tr>
+                <tr>
+                    <td></td>
+                    <td><button type="submit">Submit</button>
+                    </td>
+                </tr>
+            </table>
+        </form>
+    </section>
+
+{% endblock %}
+
+{% block sidebar %}
+{% endblock %}
+
