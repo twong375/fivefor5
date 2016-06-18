@@ -30,11 +30,15 @@ def main():
         sys.exit("Database connection failed!\n ->%s" % (exceptionValue))
 
 
-    cursor.execute("SELECT  array_to_json(array_agg(view_song_list_cached)) FROM view_song_list_cached")
-     
+    cursor.execute("SELECT array_to_json(array_agg(view_song_list_cached)) FROM view_song_list_cached")
+    for row in cursor:
+        print str(row)
+    conn.close() 
+    
+
     # retrieve the records from the database
-    records = cursor.fetchall()
-    print (type(records)) 
+    #records = cursor.fetchall()
+    #print (type(records)) 
 
     #for r in records:
      #   print records[r]
@@ -44,8 +48,9 @@ def main():
     # for most people this isn't very useful so we'll show you how to return
     # columns as a dictionary (hash) in the next example.
     #print map(str, records)
-    jsonify (records)
+    #jsonify (records)
     #pprint.pprint (records)
+    #return records
 
 if __name__ == "__main__":
     main()
