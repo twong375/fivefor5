@@ -255,8 +255,23 @@ def signin():
 
 
 @celery.task
-def my_background_task(arg1, arg2):
-    # some long running task here
+def my_background_task():
+	host = 'ec2-54-197-230-161.compute-1.amazonaws.com'
+    dbname = 'd6l8miq2r8htqp'
+    user = 'fexwmpttektrdn'
+    password = 'NfW0iifDUW4n_kevHD_MfTJFTb'
+    port = 5432
+     
+    conn_string = "host='%s' dbname='%s' user='%s' password='%s' port='%i'"% (host, dbname, user, password, port)
+    print "Connecting to database\n ->%s" % (conn_string)
+    try:
+        conn = psycopg2.connect(conn_string)
+        cursor = conn.cursor()
+        print "Connected!\n"
+    except:
+        exceptionType, exceptionValue, exceptionTraceback = sys.exc_info()
+        sys.exit("Database connection failed!\n ->%s" % (exceptionValue))
+        cursor.execute("SELECT array_to_json(array_agg(view_song_list_cached)) FROM view_song_list_cached")
     return result
 
 
