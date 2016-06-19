@@ -1,4 +1,5 @@
 from datetime import datetime
+from datetime import timedelta
 from flask import Flask, render_template, url_for, request, redirect, flash, jsonify, abort
 from flask.ext.sqlalchemy import SQLAlchemy
 from firebase import firebase
@@ -18,6 +19,20 @@ app.config['CELERY_RESULT_BACKEND'] = 'redis://localhost:6379/0'
 
 celery = Celery(app.name, broker=app.config['CELERY_BROKER_URL'])
 celery.conf.update(app.config)
+
+CELERYBEAT_SCHEDULE = {
+    'every-12-hours': {
+        'task': 'tasks.update_song_list',
+        'schedule': timedelta(minutes=5),
+        'args': (16, 16)
+    },
+}
+
+CELERY_TIMEZONE = 'ETC'
+
+
+
+
 
 '''
 class song(db.Model):
@@ -255,24 +270,23 @@ def signin():
 
 
 @celery.task
-def my_background_task():
+def update_songlist(bind=True, max_retries=3):
 	host = 'ec2-54-197-230-161.compute-1.amazonaws.com'
-    dbname = 'd6l8miq2r8htqp'
-    user = 'fexwmpttektrdn'
-    password = 'NfW0iifDUW4n_kevHD_MfTJFTb'
-    port = 5432
-     
-    conn_string = "host='%s' dbname='%s' user='%s' password='%s' port='%i'"% (host, dbname, user, password, port)
-    print "Connecting to database\n ->%s" % (conn_string)
-    try:
-        conn = psycopg2.connect(conn_string)
-        cursor = conn.cursor()
-        print "Connected!\n"
-    except:
-        exceptionType, exceptionValue, exceptionTraceback = sys.exc_info()
-        sys.exit("Database connection failed!\n ->%s" % (exceptionValue))
-        cursor.execute("SELECT array_to_json(array_agg(view_song_list_cached)) FROM view_song_list_cached")
-    return result
+	dbname = 'd6l8miq2r8htqp'
+	user = 'fexwmpttektrdn'
+	password = 'NfW0iifDUW4n_kevHD_MfTJFTb'
+	port = 5432
+	conn_string = "host='%s' dbname='%s' user='%s' password='%s' port='%i'"% (host, dbname, user, password, port)
+	print "Connecting to database\n ->%s" % (conn_string)
+	try:
+		conn = psycopg2.connect(conn_string)
+		cursor = conn.cursor()
+		print "Connected!\n"
+	except:
+		exceptionType, exceptionValue, exceptionTraceback = sys.exc_info()
+    	sys.exit("Database connection failed!\n ->%s" % (exceptionValue))
+    	cursor.execute("REFRESH MATERIALIZED VIEW view_song_list_cache")
+    	return result
 
 
 @app.errorhandler(404)

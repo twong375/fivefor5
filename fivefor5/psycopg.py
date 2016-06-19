@@ -29,11 +29,12 @@ def main():
         # Exit the script and print an error telling what happened.
         sys.exit("Database connection failed!\n ->%s" % (exceptionValue))
 
-
-    cursor.execute("SELECT array_to_json(array_agg(view_song_list_cached)) FROM view_song_list_cached")
-    for row in cursor:
-        print str(row)
-    conn.close() 
+    cursor.execute("REFRESH MATERIALIZED VIEW view_song_list_cached")
+    print "finished"
+    #cursor.execute("SELECT array_to_json(array_agg(view_song_list_cached)) FROM view_song_list_cached")
+    #for row in cursor:
+    #    print str(row)
+    #conn.close() 
     
 
     # retrieve the records from the database
