@@ -10,11 +10,31 @@ consumer_key = "TJABGVm9A6p3HPEDIUntFAMi5"
 consumer_secret = "KAsfjxxrh2qBbSGlZvrTlSaITh07XWlEBzhIPZ5LJf5sliwsrS"
 
 
+file = open('today.txt', 'a')
+
+class CustomStreamListener(tweepy.StreamListener):
+    def on_status(self, status):
+        print status.text
+
+    def on_data(self, data):
+        json_data = json.loads(data)
+        file.write(str(json_data))
+
+    def on_error(self, status_code):
+        print >> sys.stderr, 'Encountered error with status code:', status_code
+        return True # Don't kill the stream
+
+    def on_timeout(self):
+        print >> sys.stderr, 'Timeout...'
+        return True # Don't kill the stream
+
+
+
 #This is a basic listener that just prints received tweets to stdout.
 class StdOutListener(StreamListener):
 
     def on_data(self, data):
-        print data
+        print json.loads(data)
         return True
 
     def on_error(self, status):
