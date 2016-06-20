@@ -4,7 +4,6 @@ celery==3.1.23
 Flask-SQLAlchemy==2.1
 Flask-Cors==2.1.2
 Flask-WTF==0.12
-Flask-Script==2.4.3
 Flask-celery==2.4.3
 gunicorn==19.6.0
 inflect==0.2.5
