@@ -14,7 +14,7 @@ consumer_key = "TJABGVm9A6p3HPEDIUntFAMi5"
 consumer_secret = "KAsfjxxrh2qBbSGlZvrTlSaITh07XWlEBzhIPZ5LJf5sliwsrS"
 
 
-file = open('today.txt', 'a')
+#file = open('today.txt', 'a')
 
 class CustomStreamListener(StreamListener):
     def on_status(self, status):
