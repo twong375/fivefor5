@@ -2,6 +2,10 @@
 from tweepy.streaming import StreamListener
 from tweepy import OAuthHandler
 from tweepy import Stream
+from pprint import pprint
+import json
+import firebase
+
 
 #Variables that contains the user credentials to access Twitter API 
 access_token = "744337933713424388-19ocYNWcIldJLLsbv2ceZrIIMdiqXsG"
@@ -12,13 +16,15 @@ consumer_secret = "KAsfjxxrh2qBbSGlZvrTlSaITh07XWlEBzhIPZ5LJf5sliwsrS"
 
 file = open('today.txt', 'a')
 
-class CustomStreamListener(tweepy.StreamListener):
+class CustomStreamListener(StreamListener):
     def on_status(self, status):
         print status.text
 
     def on_data(self, data):
         json_data = json.loads(data)
-        file.write(str(json_data))
+        print(json_data['tweet'])
+        print type(json_data)
+        #file.write(str(json_data))
 
     def on_error(self, status_code):
         print >> sys.stderr, 'Encountered error with status code:', status_code
@@ -34,7 +40,13 @@ class CustomStreamListener(tweepy.StreamListener):
 class StdOutListener(StreamListener):
 
     def on_data(self, data):
-        print json.loads(data)
+        json_data = json.loads(data)
+        print type(json_data)
+        print(json_data['text'])
+        json_data = json.loads(data)
+        #print json.loads(data)
+        #file.write(str(json_data))
+        #pprint(json_data)
         return True
 
     def on_error(self, status):
@@ -50,4 +62,4 @@ if __name__ == '__main__':
     stream = Stream(auth, l)
 
     #This line filter Twitter Streams to capture data by the keywords: 'python', 'javascript', 'ruby'
-    stream.filter(track=['phish'])
+    stream.filter(follow=['744702845023326208'])

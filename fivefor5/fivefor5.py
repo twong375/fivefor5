@@ -17,6 +17,12 @@ app.config['SECRET_KEY'] = '\xddg\xf8\xab\xe9\x94\x97\x05rD\x0f\xb8\xaa\x17\xd4\
 app.config['CELERY_BROKER_URL'] = 'redis://localhost:6379/0'
 app.config['CELERY_RESULT_BACKEND'] = 'redis://localhost:6379/0'
 
+#Variables that contains the user credentials to access Twitter API 
+access_token = "744337933713424388-19ocYNWcIldJLLsbv2ceZrIIMdiqXsG"
+access_token_secret = "b2mwzQzisHg7Rh49ecXyO72ziC7FzhMXqffWuEphpLdZO"
+consumer_key = "TJABGVm9A6p3HPEDIUntFAMi5"
+consumer_secret = "KAsfjxxrh2qBbSGlZvrTlSaITh07XWlEBzhIPZ5LJf5sliwsrS"
+
 celery = Celery(app.name, broker=app.config['CELERY_BROKER_URL'])
 celery.conf.update(app.config)
 
