@@ -1,1 +1,2 @@
 web: gunicorn fivefor5:app
+worker: python twitter.py
