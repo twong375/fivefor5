@@ -41,9 +41,8 @@ class StdOutListener(StreamListener):
 
     def on_data(self, data):
         json_data = json.loads(data)
-        print type(json_data)
+        #print type(json_data)
         print(json_data['text'])
-        json_data = json.loads(data)
         #print json.loads(data)
         #file.write(str(json_data))
         #pprint(json_data)
@@ -61,5 +60,5 @@ if __name__ == '__main__':
     auth.set_access_token(access_token, access_token_secret)
     stream = Stream(auth, l)
 
-    #This line filter Twitter Streams to capture data by the keywords: 'python', 'javascript', 'ruby'
+    #This line filter Twitter Streams to capture data by userid
     stream.filter(follow=['744702845023326208'])

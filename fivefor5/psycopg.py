@@ -30,6 +30,9 @@ def main():
         sys.exit("Database connection failed!\n ->%s" % (exceptionValue))
 
     cursor.execute("REFRESH MATERIALIZED VIEW view_song_list_cached")
+    conn.commit()
+    cursor.close()
+    conn.close()
     print "finished"
     #cursor.execute("SELECT array_to_json(array_agg(view_song_list_cached)) FROM view_song_list_cached")
     #for row in cursor:
